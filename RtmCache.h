@@ -88,7 +88,7 @@ public:
 		int setidx = delta >> 10;
 		int groupidx = delta - (setidx<<10);
 
-		if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
+		if(stripe[groupidx].Move(setidx*8+replaceidx)){ //shift latency
 			cc.IncreaseTick(1000);	
 			stats.waste_timestamp += 1000;
 		}
