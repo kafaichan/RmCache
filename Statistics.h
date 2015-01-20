@@ -1,10 +1,9 @@
-
 class Statistics{
 public:
 	long long int hit; 
 	long long int miss; 
 	long long int waste_timestamp; 
-	long long int stall_instr;   
+	long long int stall_instr;
 	long long int rtype_instr; 
 	long long int wtype_instr; 
 	long long int utype_instr;
@@ -21,5 +20,4 @@ public:
 		printf("Unknown Type Instruction: %lld\n", utype_instr); 
 		printf("****************************************************\n\n");
 	}
-
 }stats;
