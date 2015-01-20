@@ -36,7 +36,7 @@ public:
 
 				int delta = this-rtmcache;
 				int setidx = delta >> 10;
-				int groupidx = delta - (setidx<<10)
+				int groupidx = delta - (setidx<<10);
 
 				if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
 					cc.IncreaseTick(1000);	
@@ -58,7 +58,7 @@ public:
 
 				int delta = this-rtmcache;
 				int setidx = delta >> 10;
-				int groupidx = delta - (setidx<<10)
+				int groupidx = delta - (setidx<<10);
 
 				if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
 					cc.IncreaseTick(1000);	
@@ -86,7 +86,7 @@ public:
 		
 		int delta = this-rtmcache;
 		int setidx = delta >> 10;
-		int groupidx = delta - (setidx<<10)
+		int groupidx = delta - (setidx<<10);
 
 		if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
 			cc.IncreaseTick(1000);	
