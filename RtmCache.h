@@ -35,8 +35,8 @@ public:
 				stats.hit++;		
 
 				int delta = this-rtmcache;
-				int groupidx = delta >>3;  //get the stripe num
-				int setidx = delta-groupidx*8;
+				int setidx = delta >> 10;
+				int groupidx = delta - (setidx<<10)
 
 				if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
 					cc.IncreaseTick(1000);	
@@ -57,8 +57,8 @@ public:
 				this->timestamp[i] = timestamp;
 
 				int delta = this-rtmcache;
-				int groupidx = delta >>3;  //get the stripe num
-				int setidx = delta-groupidx*8;
+				int setidx = delta >> 10;
+				int groupidx = delta - (setidx<<10)
 
 				if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
 					cc.IncreaseTick(1000);	
@@ -85,10 +85,10 @@ public:
 		this->valid[replaceidx] = 1;
 		
 		int delta = this-rtmcache;
-		int groupidx = delta >>3;  //get the stripe num
-		int setidx = delta-groupidx*8;
+		int setidx = delta >> 10;
+		int groupidx = delta - (setidx<<10)
 
-		if(stripe[groupidx].Move(setidx*8+replaceidx)){ //shift latency
+		if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
 			cc.IncreaseTick(1000);	
 			stats.waste_timestamp += 1000;
 		}
