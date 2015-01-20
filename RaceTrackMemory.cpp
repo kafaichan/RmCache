@@ -31,7 +31,7 @@ int main(int argv, char** argc){
 			firstinstr = false;
 		}
 		--maxinstruction;
-		instr.set_instr(address,timestamp);
+		instr.set_instr(address,timestamp,operation);
 		instr.print_instr(); 
 
 		/*record how many instructions each type has*/
@@ -40,17 +40,20 @@ int main(int argv, char** argc){
 		else stats.utype_instr++; 
 
 		long long int timetmp = cc.getTime(); 
-		if(timetmp > timestamp)timestamp = timetmp;
-		else cc.setTick(timestamp);
+		if(timetmp > timestamp){
+			timestamp = timetmp;
+			stats.stall_instr++;
+		}else cc.setTick(timestamp);
 
 		int setnum = instr.get_setnum(); 
 		int tag = instr.get_tag();
+		int type = instr.get_type();
 		RaceTrackMemoryCache* rtmc = &rtmcache[setnum];
 
-		if(!rtmc->FindBlock(tag,timestamp)){
+		if(!rtmc->FindBlock(tag,timestamp,type)){
 			rtmc->CacheMiss(setnum,tag,timestamp);
-			if(!rtmc->InsertBlock(tag,timestamp)){
-				rtmc->Evict(tag,timestamp);
+			if(!rtmc->InsertBlock(tag,timestamp,type)){
+				rtmc->Evict(tag,timestamp,type);
 			}
 		}
 	}
