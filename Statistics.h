@@ -4,11 +4,12 @@ public:
 	long long int hit; 
 	long long int miss; 
 	long long int waste_timestamp; 
+	long long int stall_instr;   
 	long long int rtype_instr; 
 	long long int wtype_instr; 
 	long long int utype_instr;
 
-	Statistics():hit(0), miss(0), waste_timestamp(0),rtype_instr(0), wtype_instr(0), utype_instr(0){}
+	Statistics():hit(0), miss(0), waste_timestamp(0),rtype_instr(0), wtype_instr(0), utype_instr(0),stall_instr(0){}
 	
 	void PrintReport(){
 		printf("****************************************************\n"); 
