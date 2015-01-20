@@ -25,7 +25,7 @@ public:
 		memset(timestamp,0,sizeof(timestamp));
 	}
 
-	bool FindBlock(int tag, long long int timestamp){
+	bool FindBlock(int tag, long long int timestamp,int& instr_type){
 		cc.IncreaseTick(1000);  //for the read or write latency(1 cycle=1000 ticks)
 		stats.waste_timestamp += 1000; 
 
@@ -38,9 +38,10 @@ public:
 				int setidx = delta >> 10;
 				int groupidx = delta - (setidx<<10);
 
-				if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
+				if(stripe[groupidx].Move(setidx*8+i,instr_type)){ //shift latency
 					cc.IncreaseTick(1000);	
 					stats.waste_timestamp += 1000;
+					stripe[groupidx].PrintState();
 				}
 				return true;
 			}
@@ -49,7 +50,7 @@ public:
 		return false;
 	}
 
-	bool InsertBlock(int tag, long long int timestamp){
+	bool InsertBlock(int tag, long long int timestamp,int& instr_type){
 		for(int i = 0; i < SETSIZE; i++){
 			if(valid[i] < 0){
 				valid[i] = 1; 
@@ -60,9 +61,10 @@ public:
 				int setidx = delta >> 10;
 				int groupidx = delta - (setidx<<10);
 
-				if(stripe[groupidx].Move(setidx*8+i)){ //shift latency
+				if(stripe[groupidx].Move(setidx*8+i,instr_type)){ //shift latency
 					cc.IncreaseTick(1000);	
 					stats.waste_timestamp += 1000;
+					stripe[groupidx].PrintState();
 				}
 				return true;
 			}
@@ -70,7 +72,7 @@ public:
 		return false;
 	}
 
-	void Evict(int tag, long long int timestamp){
+	void Evict(int tag, long long int timestamp,int& instr_type){
 		long long int min = cc.getTime(); 
 		int replaceidx; 
 
@@ -88,9 +90,10 @@ public:
 		int setidx = delta >> 10;
 		int groupidx = delta - (setidx<<10);
 
-		if(stripe[groupidx].Move(setidx*8+replaceidx)){ //shift latency
+		if(stripe[groupidx].Move(setidx*8+replaceidx,instr_type)){ //shift latency
 			cc.IncreaseTick(1000);	
 			stats.waste_timestamp += 1000;
+			stripe[groupidx].PrintState();
 		}
 	}
 
@@ -114,6 +117,3 @@ public:
 		printf("\n\n");		
 	}
 }rtmcache[SETIDX]; 
-
-
-
